@@ -23,6 +23,8 @@ app.use(cookieParser());
 
 app.use(express.json());
 
+dotenv.config({ path: "./.env" });
+
 const corsOptions = {
   origin: process.env.FRONTEND_URL, // Allow only this origin
   methods: "GET,POST,PATCH,DELETE", // Specify the allowed HTTP methods
@@ -30,7 +32,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-dotenv.config({ path: "./.env" });
 
 const port = 4000 || process.env.PORT;
 mongoose
