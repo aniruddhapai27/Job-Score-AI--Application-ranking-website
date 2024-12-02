@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 app.use(express.json());
 
-dotenv.config({ path: "./.env" });
+dotenv.config();
 
 const corsOptions = {
   origin: process.env.FRONTEND_URL, // Allow only this origin
