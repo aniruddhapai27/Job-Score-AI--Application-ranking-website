@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "@/utils";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useAuth } from "@/contexts/AuthProvider";
+import { useEmployee } from "@/contexts/EmployeeProvider";
 
 function EmployeeForm() {
   const [employeeDetails, setEmployeeDetails] = useState({
@@ -9,6 +13,9 @@ function EmployeeForm() {
     desiredSalary: "",
     resume: null, // To store the uploaded resume
   });
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { setEmployee, getEmployee } = useEmployee();
 
   // Handle input change
   const handleChange = (e) => {
@@ -63,7 +70,10 @@ function EmployeeForm() {
         }
       );
       console.log("Employee Details Saved:", response.data);
-      alert("Details saved successfully!");
+      toast.success("Details saved successfully!");
+      setEmployee(response?.data?.employee);
+      getEmployee();
+      navigate(`/dashboard/${user._id}/profile`);
     } catch (error) {
       console.error("Error saving employee details:", error);
       alert("An error occurred while saving your details.");

@@ -6,7 +6,7 @@ import { useAuth } from "./AuthProvider";
 const EmployeeContext = createContext();
 
 export function EmployeeProvider({ children }) {
-  const [employee, setEmployee] = useState();
+  const [employee, setEmployee] = useState(null);
   const { user } = useAuth();
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
@@ -26,8 +26,14 @@ export function EmployeeProvider({ children }) {
     if (user?._id && user?.role === "employee") fetchEmployeeDetails();
   }, [user]);
 
+  const getEmployee = () => {
+    setEmployee((prev) => ({
+      ...prev,
+    }));
+  };
+
   return (
-    <EmployeeContext.Provider value={{ employee, setEmployee }}>
+    <EmployeeContext.Provider value={{ employee, setEmployee, getEmployee }}>
       {children}
     </EmployeeContext.Provider>
   );

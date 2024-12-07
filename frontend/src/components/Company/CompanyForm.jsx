@@ -3,9 +3,12 @@ import axios from "axios";
 import { BACKEND_URL } from "@/utils";
 import { useAuth } from "@/contexts/AuthProvider";
 import { useCompany } from "@/contexts/CompanyProvider";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const CompanyForm = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const { setCompany } = useCompany();
   const [formData, setFormData] = useState({
     companyName: "",
@@ -45,11 +48,13 @@ const CompanyForm = () => {
       setCompany(response.data?.company);
 
       setMessage(response.data.message || "Company created successfully!");
+      toast.success("Company details added successfully!");
       setFormData({
         companyName: "",
         industryType: "",
         companyOverview: "",
       });
+      navigate(`/dashboard/${user._id}/profile`);
     } catch (error) {
       setMessage(
         error.response?.data?.message || "An error occurred. Please try again."

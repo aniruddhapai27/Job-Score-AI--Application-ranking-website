@@ -93,6 +93,7 @@ function EmployeeEdit() {
         }
       );
       setEmployee(response.data.employee); // Update context with new employee data
+      console.log(response?.data?.employee);
       navigate(-1); // Navigate back to the profile page after update
     } catch (error) {
       console.error("Error updating employee details:", error);
