@@ -13,27 +13,17 @@ function Profile() {
   const { employee } = useEmployee();
   const { user } = useAuth();
 
-  // If user role is employee
+  // Render for employee role
   if (user?.role === "employee") {
-    // If employee details are not available, show EmployeeForm
-    if (!employee) {
-      return <EmployeeForm />;
-    }
-    // If employee details are available, show EmployeeDetails
-    return <EmployeeDetails />;
+    return employee ? <EmployeeDetails /> : <EmployeeForm />;
   }
 
-  // If user role is employer
+  // Render for employer role
   if (user?.role === "employer") {
-    // If company details are not available, show CompanyForm
-    if (!company) {
-      return <CompanyForm />;
-    }
-    // If company details are available, show CompanyDetails
-    return <CompanyDetails />;
+    return company ? <CompanyDetails /> : <CompanyForm />;
   }
 
-  // Fallback if no role matches
+  // Fallback for no role
   return <div>No result found</div>;
 }
 
