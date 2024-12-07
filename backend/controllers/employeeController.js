@@ -17,7 +17,7 @@ exports.createEmployeeDetails = async (req, res) => {
     }
 
     // Check if the file is a PDF by its MIME type
-    const allowedFormats = ["application/pdf"];
+    const allowedFormats = ["application/pdf", "jimage/pg", "image/png"];
     if (!allowedFormats.includes(resume.mimetype)) {
       return res.status(400).json({
         message: "Invalid file format. Only PDF files are allowed",
@@ -116,7 +116,7 @@ exports.editEmployeeDetails = async (req, res) => {
     // Check if a new resume is provided and upload it to Cloudinary
     if (resume) {
       // Check if the file is a PDF by its MIME type
-      const allowedFormats = ["application/pdf"];
+      const allowedFormats = ["application/pdf", "image/png", "image/jpg"];
       if (!allowedFormats.includes(resume.mimetype)) {
         return res.status(400).json({
           message: "Invalid file format. Only PDF files are allowed",
@@ -156,6 +156,24 @@ exports.editEmployeeDetails = async (req, res) => {
     res.status(500).json({
       message: "Server error",
       error: error.message || error, // Send error message or the error itself
+    });
+  }
+};
+
+exports.getAllResumes = async (req, res) => {
+  try {
+    const resumes = await Employee.find({}, "resume");
+    return res.status(200).json({
+      success: true,
+      message: "Resumes fetched successfully.",
+      resumes,
+    });
+  } catch (error) {
+    console.error("Error fetching resumes:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch resumes.",
+      error: error.message,
     });
   }
 };
