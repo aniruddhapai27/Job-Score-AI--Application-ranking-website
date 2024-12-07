@@ -13,7 +13,6 @@ import JobCreate from "./components/Job/JobCreate";
 import JobEdit from "./components/Job/JobEdit";
 import { EmployeeProvider } from "./contexts/EmployeeProvider";
 import EmployeeEdit from "./components/Employee/EmployeeEdit";
-import Temp from "./components/Employee/Temp";
 
 const App = () => {
   return (
@@ -22,7 +21,6 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/temp" element={<Temp />} />
         <Route
           path="/dashboard/:id"
           element={
