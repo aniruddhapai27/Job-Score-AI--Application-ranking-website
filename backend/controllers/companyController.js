@@ -81,7 +81,7 @@ exports.getCompanyDetails = async (req, res) => {
     console.log("Authenticated User ID:", userId);
 
     // Find the company by userId
-    const company = await Company.findOne({ userId });
+    const company = await Company.findOne({ userId }).populate("jobs");
 
     if (!company) {
       return res.status(404).json({
