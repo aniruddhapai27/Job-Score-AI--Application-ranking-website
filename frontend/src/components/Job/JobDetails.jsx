@@ -11,7 +11,7 @@ import { BACKEND_URL } from "@/utils";
 
 const JobDetails = () => {
   const { jobId } = useParams();
-  const { company } = useCompany();
+  const { company, deleteJob } = useCompany();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,6 +24,7 @@ const JobDetails = () => {
         withCredentials: true,
       });
       toast.success("Job deleted successfully!");
+      deleteJob(jobId);
       setIsModalOpen(false); // Close the modal
       navigate(-1); // Navigate back after deletion
     } catch (error) {
