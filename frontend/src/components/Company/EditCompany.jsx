@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import BackButton from "../BackButton";
 
 function EditCompany() {
-  const { company, setCompany } = useCompany();
+  const { company, setCompany, editCompany } = useCompany();
   const [formData, setFormData] = useState({
     companyName: company?.companyName || "",
     industryType: company?.industryType || "",
@@ -40,8 +40,10 @@ function EditCompany() {
         }
       );
       console.log(response);
-      setCompany(response.data?.company); // Update context with the new data
+      setCompany(response?.data?.company); // Update context with the new data
       setMessage("Company details updated successfully!");
+      editCompany(response?.data);
+      console.log(response?.data?.company);
       navigate(`/dashboard/${company.userId}/profile`);
     } catch (error) {
       setMessage(
