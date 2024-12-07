@@ -19,7 +19,7 @@ function JobCreate() {
 
   const [message, setMessage] = useState("");
 
-  const { company } = useCompany();
+  const { company, createJob } = useCompany();
   formData.companyId = company?._id;
 
   const navigate = useNavigate();
@@ -43,7 +43,8 @@ function JobCreate() {
         }
       ); // Replace with your API endpoint
       setMessage("Job created successfully!");
-      console.log(response.data);
+      createJob(response?.data?.job);
+      console.log("Job created successfully", response?.data?.job?._id);
       navigate(-1);
     } catch (error) {
       console.error(error);
