@@ -9,7 +9,7 @@ import BackButton from "../BackButton";
 const JobEdit = () => {
   const { jobId } = useParams(); // Retrieve job ID from the URL
   const navigate = useNavigate();
-  const { company } = useCompany();
+  const { company, updateJob } = useCompany();
   const [formData, setFormData] = useState({
     jobTitle: "",
     jobDescription: "",
@@ -50,7 +50,7 @@ const JobEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(
+      const response = await axios.patch(
         `${BACKEND_URL}/api/company/editJob/${jobId}`,
         formData,
         {
@@ -61,6 +61,8 @@ const JobEdit = () => {
         }
       );
       toast.success("Job updated successfully!");
+      updateJob(response?.data);
+      console.log(response);
       navigate(-1); // Redirect to jobs list or another desired page
     } catch (error) {
       console.error("Error updating job:", error);
