@@ -1,12 +1,39 @@
 // src/components/Sidebar.jsx
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthProvider";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
+import toast from "react-hot-toast";
+import { BACKEND_URL } from "@/utils";
+import axios from "axios";
 
 const Sidebar = () => {
   const { user } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const { setIsAuthenticated, setUser } = useAuth();
+  const navigate = useNavigate();
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      console.log("user", user);
+
+      const { data } = await axios.get(`${BACKEND_URL}/api/user/logout`, {
+        withCredentials: true,
+      });
+      console.log(data);
+      localStorage.removeItem("jwt"); // deleting token in localStorage so that if user logged out it will goes to login page
+
+      toast.success(data.message);
+      setIsAuthenticated(false);
+      setUser(null);
+
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to logout");
+    }
+  };
 
   // Toggle sidebar visibility on small screens
   const toggleSidebar = () => {
@@ -72,6 +99,19 @@ const Sidebar = () => {
               }
             >
               Search
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={`/logout`}
+              className={({ isActive }) =>
+                `block py-3 px-4 rounded-md transition-colors ${
+                  isActive ? "bg-gray-700" : "hover:bg-gray-800"
+                }`
+              }
+              onClick={(e) => handleLogout(e)}
+            >
+              Logout
             </NavLink>
           </li>
         </ul>
