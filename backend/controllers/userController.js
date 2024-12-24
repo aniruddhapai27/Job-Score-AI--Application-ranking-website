@@ -12,6 +12,7 @@ exports.getUser = async (req, res) => {
   const user = await req.user;
   return res.status(200).json({ success: true, user });
 };
+
 exports.getCompanyData = async (req, res) => {
   // give company id
   try {

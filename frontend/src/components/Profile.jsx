@@ -1,12 +1,14 @@
-import { useCompany } from "@/contexts/CompanyProvider";
-import CompanyForm from "./Company/CompanyForm";
-import EditCompany from "./Company/EditCompany";
-import { Link } from "react-router-dom";
-import CompanyDetails from "./Company/CompanyDetails";
 import { useAuth } from "@/contexts/AuthProvider";
+import { useCompany } from "@/contexts/CompanyProvider";
 import { useEmployee } from "@/contexts/EmployeeProvider";
-import EmployeeForm from "./Employee/EmployeeForm";
-import EmployeeDetails from "./Employee/EmployeeDetails";
+import React, { Suspense } from "react";
+import { SkeletonCard } from "./ui/SkeletonCard";
+
+// Correct lazy imports for components
+const CompanyForm = React.lazy(() => import("./Company/CompanyForm"));
+const CompanyDetails = React.lazy(() => import("./Company/CompanyDetails"));
+const EmployeeForm = React.lazy(() => import("./Employee/EmployeeForm"));
+const EmployeeDetails = React.lazy(() => import("./Employee/EmployeeDetails"));
 
 function Profile() {
   const { company } = useCompany();
@@ -15,16 +17,24 @@ function Profile() {
 
   // Render for employee role
   if (user?.role === "employee") {
-    return employee ? <EmployeeDetails /> : <EmployeeForm />;
+    return (
+      <Suspense fallback={<SkeletonCard />}>
+        {employee ? <EmployeeDetails /> : <EmployeeForm />}
+      </Suspense>
+    );
   }
 
   // Render for employer role
   if (user?.role === "employer") {
-    return company ? <CompanyDetails /> : <CompanyForm />;
+    return (
+      <Suspense fallback={<SkeletonCard />}>
+        {company ? <CompanyDetails /> : <CompanyForm />}
+      </Suspense>
+    );
   }
 
   // Fallback for no role
-  return <div>No result found</div>;
+  return <SkeletonCard />;
 }
 
 export default Profile;

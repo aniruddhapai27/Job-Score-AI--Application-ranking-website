@@ -177,3 +177,49 @@ exports.getAllResumes = async (req, res) => {
     });
   }
 };
+
+exports.getAllEmployees = async (req, res) => {
+  try {
+    const employees = await Employee.find().populate("userId", "name");
+
+    return res.status(200).json({
+      success: true,
+      size: employees.length,
+      message: "Employee details fetched successfully.",
+      employees,
+    });
+  } catch (error) {
+    console.error("Error fetching employee details:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch employee details.",
+      error: error.message,
+    });
+  }
+};
+
+exports.getEmployeeDetailsById = async (req, res) => {
+  try {
+    const { empId } = req.params;
+    console.log(empId);
+    const employee = await Employee.findById(empId).populate("userId");
+    console.log("Employee");
+    console.log(employee);
+    if (!employee) {
+      return res.status(404).json({
+        success: false,
+        message: "Employee not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Employee found successfully",
+      employee,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};

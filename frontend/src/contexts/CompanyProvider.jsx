@@ -17,9 +17,6 @@ export function CompanyProvider({ children }) {
           `${BACKEND_URL}/api/user/getCompanyData`,
           {
             withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
           }
         );
         console.log(response);

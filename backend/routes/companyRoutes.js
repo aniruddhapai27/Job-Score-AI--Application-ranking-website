@@ -8,9 +8,11 @@ const {
 } = require("../controllers/companyController");
 const {
   createJob,
-  getAllJobs,
+  getAllJobsOfCompany,
   editJob,
   deleteJob,
+  getAllJobs,
+  getSingleJob,
 } = require("../controllers/jobController");
 
 const router = express.Router();
@@ -18,9 +20,11 @@ const router = express.Router();
 router.post("/create", isAuthenticated, createCompanyDetails);
 router.patch("/:companyId", isAuthenticated, editCompanyDetails);
 router.get("/get", isAuthenticated, getCompanyDetails);
+router.get("/getAllJobs", getAllJobs);
 
 router.post("/createJob", isAuthenticated, createJob);
-router.get("/getAllJobs", isAuthenticated, getAllJobs);
+router.get("/getJob/:jobId", getSingleJob);
+router.get("/getAllJobsOfCompany", isAuthenticated, getAllJobsOfCompany);
 router.patch("/editJob/:jobId", isAuthenticated, editJob);
 router.delete("/deleteJob/:jobId", isAuthenticated, deleteJob);
 

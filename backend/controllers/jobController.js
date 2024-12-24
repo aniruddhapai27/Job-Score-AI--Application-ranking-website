@@ -57,13 +57,14 @@ exports.createJob = async (req, res) => {
 };
 
 // Get all jobs
-exports.getAllJobs = async (req, res) => {
+exports.getAllJobsOfCompany = async (req, res) => {
   try {
     // Assuming the user is authenticated and their companyId is available in req.user
     //   const { companyId } = req.user; // Extract companyId from the authenticated user
     const company = await Company.findOne({ userId: req.user._id }).populate(
       "jobs"
     );
+
     if (!company) {
       return res.status(404).json({
         success: false,
@@ -132,6 +133,56 @@ exports.deleteJob = async (req, res) => {
       success: false,
       message: "Error deleting job",
       error: error.message,
+    });
+  }
+};
+
+exports.getAllJobs = async (req, res) => {
+  try {
+    const jobs = await Job.find().populate("companyId");
+    console.log(jobs);
+    if (!jobs) {
+      return res.status(404).json({
+        success: false,
+        message: "Job not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      size: jobs.length,
+      message: "All jobs found",
+      jobs,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error deleting job",
+      error: error.message,
+    });
+  }
+};
+
+exports.getSingleJob = async (req, res) => {
+  try {
+    const jobId = req.params.jobId;
+    const job = await Job.findById(jobId).populate("companyId");
+
+    if (!job) {
+      return res.status(404).json({
+        success: false,
+        message: "Job not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      job,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching job",
     });
   }
 };

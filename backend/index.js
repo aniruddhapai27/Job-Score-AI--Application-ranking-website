@@ -32,7 +32,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-
 const port = 4000 || process.env.PORT;
 mongoose
   .connect(process.env.DATABASE)
