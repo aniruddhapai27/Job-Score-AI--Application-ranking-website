@@ -4,7 +4,7 @@ const cloudinary = require("cloudinary").v2;
 // Create employee controller
 exports.createEmployeeDetails = async (req, res) => {
   try {
-    const { jobType, preferredLocation, desiredSalary } = req.body; // Destructure the individual fields
+    const { jobType, preferredLocation, desiredSalary, skills } = req.body; // Destructure the individual fields
     const userId = req?.user?._id;
 
     const resume = req.files?.resume; // Get the resume file from the request
@@ -162,7 +162,9 @@ exports.editEmployeeDetails = async (req, res) => {
 
 exports.getAllResumes = async (req, res) => {
   try {
+    // console.log("Hi");
     const resumes = await Employee.find({}, "resume");
+    // console.log(resumes);
     return res.status(200).json({
       success: true,
       message: "Resumes fetched successfully.",

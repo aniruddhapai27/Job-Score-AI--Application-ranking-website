@@ -103,3 +103,45 @@ exports.getCompanyDetails = async (req, res) => {
     });
   }
 };
+
+exports.getSkills = async (req, res) => {
+  try {
+    // console.log("Fetching companies...");
+
+    // Fetch companies with their jobs populated
+    const companies = await Company.find().populate("jobs"); // Assuming `jobs` is a reference field
+
+    // console.log("Companies fetched:", companies);
+
+    if (!companies || companies.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No companies found",
+      });
+    }
+
+    // Map through companies to extract skills and job IDs
+    const result = companies.map((company) => {
+      return {
+        companyName: company.companyName,
+        jobs: company.jobs.map((job) => ({
+          jobId: job._id,
+          skills: job.requiredSkills, // Assuming `skills` is a field in the `Job` model
+        })),
+      };
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Skills and job IDs of all companies retrieved successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.error("Error fetching companies:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};

@@ -5,6 +5,7 @@ const {
   createCompanyDetails,
   editCompanyDetails,
   getCompanyDetails,
+  getSkills,
 } = require("../controllers/companyController");
 const {
   createJob,
@@ -13,6 +14,7 @@ const {
   deleteJob,
   getAllJobs,
   getSingleJob,
+  getSkillsById,
 } = require("../controllers/jobController");
 
 const router = express.Router();
@@ -27,5 +29,7 @@ router.get("/getJob/:jobId", getSingleJob);
 router.get("/getAllJobsOfCompany", isAuthenticated, getAllJobsOfCompany);
 router.patch("/editJob/:jobId", isAuthenticated, editJob);
 router.delete("/deleteJob/:jobId", isAuthenticated, deleteJob);
+router.get("/getSkill", getSkills);
+router.get("/getSkillsById/:JobId", getSkillsById);
 
 module.exports = router;

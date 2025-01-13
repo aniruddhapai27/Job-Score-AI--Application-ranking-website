@@ -23,6 +23,7 @@ const EmployeeSchema = new mongoose.Schema({
     type: Number, // Desired salary
     // required: true,
   },
+  skills: [String],
   appliedJobs: [
     {
       type: mongoose.Schema.Types.ObjectId,

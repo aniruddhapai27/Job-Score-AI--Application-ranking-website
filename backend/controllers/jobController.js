@@ -139,14 +139,35 @@ exports.deleteJob = async (req, res) => {
 
 exports.getAllJobs = async (req, res) => {
   try {
-    const jobs = await Job.find().populate("companyId");
-    console.log(jobs);
-    if (!jobs) {
+    const company = await Company.find().populate("jobs");
+
+    if (!company) {
       return res.status(404).json({
         success: false,
         message: "Job not found",
       });
     }
+    // const allJobs = company?.map((elem) => {
+    //   // console.log(elem);
+    //   elem?.jobs?.map((job) => {
+    //     console.log(job);
+    //   });
+    // });/
+    const jobs = [];
+    const extractJobs = company.map((elem) => {
+      elem?.jobs?.map((job) => {
+        jobs.push(job);
+      });
+    });
+
+    // console.log(allJobs);
+    // const allJob = company.map.jobs.map((job) => ({
+    //   // jobId: job,
+    //   // companyName: job.companyId.companyName,
+    //   // industryType: job.companyId.industryType,
+    // }));
+    // console.log(allJobs);
+
     res.status(200).json({
       success: true,
       size: jobs.length,
@@ -156,7 +177,7 @@ exports.getAllJobs = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error deleting job",
+      message: "Internal server error",
       error: error.message,
     });
   }
@@ -183,6 +204,39 @@ exports.getSingleJob = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error fetching job",
+    });
+  }
+};
+exports.getSkillsById = async (req, res) => {
+  try {
+    const { JobId } = req.params; // Retrieve the companyId from the URL parameters
+
+    // Fetch the company with the provided companyId and populate the 'jobs' field
+    const job = await Job.findById(JobId);
+    if (!job) {
+      return res.status(404).json({
+        success: false,
+        message: "Company not found",
+      });
+    }
+
+    // Map through the jobs to extract skills
+    const result = {
+      jobId: JobId,
+      skills: job?.requiredSkills,
+    };
+
+    return res.status(200).json({
+      success: true,
+      message: "Skills and job IDs of the company retrieved successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.error("Error fetching company skills:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
     });
   }
 };

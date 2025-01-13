@@ -7,6 +7,8 @@ const cookieParser = require("cookie-parser");
 const userRouter = require("./routes/userRoutes");
 const companyRouter = require("./routes/companyRoutes");
 const employeeRouter = require("./routes/employeeRoutes");
+const helperRouter = require("./routes/helperRoutes"); // Adjust the path
+
 const app = express();
 
 const fileUpload = require("express-fileupload");
@@ -43,7 +45,7 @@ mongoose
 app.use("/api/user", userRouter);
 app.use("/api/company", companyRouter);
 app.use("/api/employee", employeeRouter);
-
+app.use("/api/helper", helperRouter);
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
