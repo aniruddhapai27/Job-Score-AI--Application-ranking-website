@@ -24,12 +24,12 @@ const EmployeeSchema = new mongoose.Schema({
     // required: true,
   },
   skills: [String],
-  appliedJobs: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Job", // Reference to a Job model
-    },
-  ],
+  // appliedJobs: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: "Job", // Reference to a Job model
+  //   },
+  // ],
 });
 
 const Employee = mongoose.model("Employee", EmployeeSchema);

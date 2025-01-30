@@ -55,6 +55,28 @@ export function CompanyProvider({ children }) {
     }
   };
 
+  const getJobsOfCompany = async () => {
+    if (!company.id) return;
+    try {
+      const response = await axios.get(
+        `${BACKEND_URL}/api/company/getAllJobsOfCompany`, // Modify with correct endpoint for fetching jobs
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response);
+      setCompany((prev) => ({
+        ...prev,
+        jobs: response.data.jobs || [],
+      }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const editCompany = (updatedCompany) => {
     setCompany((prev) => ({
       ...prev,
@@ -93,6 +115,7 @@ export function CompanyProvider({ children }) {
         company,
         setCompany,
         getJobs,
+        getJobsOfCompany,
         editCompany,
         deleteJob,
         updateJob,

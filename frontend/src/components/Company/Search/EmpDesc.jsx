@@ -56,6 +56,14 @@ function EmpDesc() {
           View Resume
         </a>
       </p>
+      <div className="mt-4">
+        <h3 className="text-lg font-semibold">Skills:</h3>
+        <ul className="list-disc list-inside text-gray-700">
+          {emp?.skills.map((skill, index) => (
+            <li key={index}>{skill}</li>
+          ))}
+        </ul>
+      </div>
       <button className="w-28 mt-14 py-2 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700">
         Send Message
       </button>

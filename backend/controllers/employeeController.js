@@ -50,6 +50,7 @@ exports.createEmployeeDetails = async (req, res) => {
       jobType, // Individual jobType field from the request
       preferredLocation, // Individual preferredLocation field from the request (Array of strings)
       desiredSalary, // Individual desiredSalary field from the request
+      skills,
     });
 
     // Save the employee to the database
@@ -99,7 +100,7 @@ exports.getEmployeeDetails = async (req, res) => {
 // Update employee details controller
 exports.editEmployeeDetails = async (req, res) => {
   try {
-    const { jobType, preferredLocation, desiredSalary } = req.body; // Destructure the updated fields
+    const { jobType, preferredLocation, desiredSalary, skills } = req.body; // Destructure the updated fields
     console.log("Body:");
     console.log(req.body);
     const resume = req.files?.resume; // Get the resume file from the request if provided
@@ -143,6 +144,7 @@ exports.editEmployeeDetails = async (req, res) => {
     employee.preferredLocation =
       preferredLocation || employee.preferredLocation;
     employee.desiredSalary = desiredSalary || employee.desiredSalary;
+    employee.skills = skills || employee.skills;
 
     // Save the updated employee details
     await employee.save();

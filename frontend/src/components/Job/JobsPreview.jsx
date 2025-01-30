@@ -6,13 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 
 function JobsPreview() {
   const navigate = useNavigate();
-  const { company, getJobs } = useCompany();
+  const { company, getJobsOfCompany, getJobs } = useCompany();
   const { user } = useAuth();
   const { jobs } = company || {};
 
   useEffect(() => {
     if (user?._id && company?._id) {
-      getJobs(); // Fetch jobs after user and company are available
+      getJobsOfCompany(); // Fetch jobs after user and company are available
     }
   }, []);
 

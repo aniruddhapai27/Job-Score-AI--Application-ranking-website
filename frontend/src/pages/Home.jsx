@@ -51,10 +51,11 @@ const Home = () => {
             Login
           </Button>
         </Link>
+
         {/* Temporary logout button */}
-        <Button className="px-6 py-2" onClick={(e) => handleLogout(e)}>
+        {/* <Button className="px-6 py-2" onClick={(e) => handleLogout(e)}>
           Logout
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

@@ -17,12 +17,12 @@ const CompanySchema = new mongoose.Schema({
   },
   //companyLogo: String, // URL of the company logo (optional)
   companyOverview: String, // Description of the company (optional)
-  // jobs: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: "Job", // Reference to a Job model, which stores job details
-  //   },
-  // ],
+  jobs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Job", // Reference to a Job model, which stores job details
+    },
+  ],
 });
 
 const Company = mongoose.model("Company", CompanySchema);

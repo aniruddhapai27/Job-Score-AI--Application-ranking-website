@@ -29,7 +29,9 @@ function Search() {
     <>
       <div className="w-full mx-auto bg-white p-6 rounded shadow-md">
         <div className="flex flex-col justify- sm:flex-row sm:justify-between sm:items-center mb-4">
-          <h2 className="text-2xl font-bold text-blue-600">All jobs</h2>
+          <h2 className="text-2xl font-bold text-blue-600">
+            {user?.role == "employee" ? "All jobs" : "All Employees"}
+          </h2>
           <div className="flex gap-3  relative mt-10">
             <div className="absolute bottom-12 text-sm">
               Search jobs based upon your skills
@@ -49,7 +51,7 @@ function Search() {
           {user?.role === "employee" ? (
             <EmployeeSearchPage skills={parseInputs} />
           ) : (
-            <CompanySearchPage />
+            <CompanySearchPage skills={parseInputs} />
           )}
         </div>
       </div>
